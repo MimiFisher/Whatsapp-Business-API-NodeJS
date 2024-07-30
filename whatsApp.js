@@ -66,7 +66,7 @@ app.get("/webhook", (req, res)=>{
     let token=req.query["hub.verify_token"];
 
     if (mode==="subscribe" && token===myToken){
-        return res.status(200).json(challenge);
+        return res.status(200).send(challenge);
     } else {
         return res.status(403).json("error: wrong request");
     }
