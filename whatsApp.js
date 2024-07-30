@@ -11,6 +11,9 @@ const app = express().use(bodyParser.json());
 /*app.use(bodyParser.urlencoded({
     extended: false
 }));*/
+app.listen(process.env.PORT,()=>{
+    console.log("webhook is listening");
+});
 
 app.get('/', (req, res) => {
     let resData = {
@@ -80,7 +83,6 @@ app.post("/webhook", (req,res)=>{
             body.entry[0].changes[0].value.message && 
             body.entry[0].changes[0].value.message[0]
         ) {
-            let phone_number_id=body.entry[0].changes[0].value.metadata.phone_number_id;
             let from=body.entry[0].changes[0].value.messages[0].from;
             let msg_body=body.entry[0].changes[0].value.messages[0].text.body;
 
@@ -93,9 +95,9 @@ app.post("/webhook", (req,res)=>{
                 },
                 data:{
                     messaging_product:"whatsapp",
-                    to:to,
+                    to:from,
                     text:{
-                        body:"Hi, its working!"
+                        body:msg_body
                     }
                 },
             });
