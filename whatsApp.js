@@ -11,9 +11,6 @@ const app = express().use(bodyParser.json());
 /*app.use(bodyParser.urlencoded({
     extended: false
 }));*/
-app.listen(3000, () => {
-    console.log("starting...");
-});
 
 app.get('/', (req, res) => {
     let resData = {
