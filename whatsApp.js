@@ -86,58 +86,36 @@ app.post("/webhook", (req,res)=>{
             let from=body.entry[0].changes[0].value.messages[0].from;
             let msg_body=body.entry[0].changes[0].value.messages[0].text.body;
 
-            axios({
-                method: 'POST',
-                url: 'https://graph.facebook.com/v20.0/325807853959150/messages',
-                headers: {
-                    Authorization: 'Bearer EAAHLThwOqiIBO0Y3iQfgQPpcZA4G5lxS42YBTQCuN9DbRWDSpbZC5HsCkj7brqqHZClkXnThxACGXpJtgvrT9r8XWJitJ8vYyaNnM0EMg4vipacQwFh0aQ0KclxQh0WoOLuvlPPnCZA4eOz6vH9lIB6RZA8Klq1cJqZA9u3gulp4X6e3IwKHTNqBg2p5fpTjopqUz2y0U74dKgGk05g2oOhLgQhEgZD',
-                    'Content-Type': 'application/json'
-                },
-                data:{
-                    messaging_product:"whatsapp",
-                    to:from,
-                    text:{
-                        body:msg_body
-                    }
-                },
-            });
-
-            resData.status = true;
-            resData.respondData = data;
-            return res.status(200).json(resData);
-        } else{
-            res.sendStatus(404);
-        }
-
-        try {
-            const options = {
-                method: 'POST',
-                url: 'https://graph.facebook.com/v20.0/373490019183651/messages',
-                headers: {
-                    Authorization: 'Bearer EAAHLThwOqiIBO0Y3iQfgQPpcZA4G5lxS42YBTQCuN9DbRWDSpbZC5HsCkj7brqqHZClkXnThxACGXpJtgvrT9r8XWJitJ8vYyaNnM0EMg4vipacQwFh0aQ0KclxQh0WoOLuvlPPnCZA4eOz6vH9lIB6RZA8Klq1cJqZA9u3gulp4X6e3IwKHTNqBg2p5fpTjopqUz2y0U74dKgGk05g2oOhLgQhEgZD',
-                    'Content-Type': 'application/json'
-                },
-                body: {
-                    messaging_product: 'whatsapp',
-                    to: '+13473894047',
-                    type: 'text',
-                    text: {
-                        body: 'Hi, Welcome!'
-                    }
-                },
-                json: true
-            };
-            request(options, function(error, response, body) {
-                if (error) throw new Error(error);
-                
-                resData.status = true;
-                resData.respondData = body;
+            try {
+                const options = {
+                    method: 'POST',
+                    url: 'https://graph.facebook.com/v20.0/' + PhoneNumberId + '/messages',
+                    headers: {
+                        Authorization: AuthToken,
+                        'Content-Type': 'application/json'
+                    },
+                    body: {
+                        messaging_product: 'whatsapp',
+                        to: '+13473894047',
+                        type: 'text',
+                        text: {
+                            body: 'Hi, your message is " + msg_body'
+                        }
+                    },
+                    json: true
+                };
+                request(options, function(error, response, body) {
+                    if (error) throw new Error(error);
+                    
+                    resData.status = true;
+                    resData.respondData = body;
+                    return res.status(200).json(resData);
+                });
+            } catch (e) {
+                resData.status = 404;
+                resData.error = e;
                 return res.status(200).json(resData);
-            });
-        } catch (e) {
-            resData.status = 404;
-            resData.error = e;
-            return res.status(200).json(resData);
+            }
         }
     }
 });
