@@ -11,7 +11,7 @@ const app = express().use(bodyParser.json());
 /*app.use(bodyParser.urlencoded({
     extended: false
 }));*/
-app.listen(process.env.PORT,()=>{
+app.listen(()=>{
     console.log("webhook is listening");
 });
 
@@ -78,12 +78,12 @@ app.post("/webhook", (req,res)=>{
     console.log(JSON.stringify(body, null, 2));
 
     if(body.object){
-        if(body.entry && 
-            body.entry[0].changes &&
-            body.entry[0].changes[0].value.message && 
-            body.entry[0].changes[0].value.message[0]
+        if(entry && 
+            req.entry[0].changes &&
+            req.entry[0].changes[0].value.message &&
+            req.entry[0].changes[0].value.message[0]
         ) {
-            let from=body.entry[0].changes[0].value.messages[0].from;
+            let from=req.entry[0].changes[0].value.messages[0].from;
             let msg_body=body.entry[0].changes[0].value.messages[0].text.body;
 
             try {
@@ -96,7 +96,7 @@ app.post("/webhook", (req,res)=>{
                     },
                     body: {
                         messaging_product: 'whatsapp',
-                        to: '+13473894047',
+                        from: from,
                         type: 'text',
                         text: {
                             body: 'Hi, your message is " + msg_body'
