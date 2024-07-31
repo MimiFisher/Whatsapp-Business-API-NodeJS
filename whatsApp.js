@@ -80,11 +80,11 @@ app.post("/webhook", (req,res)=>{
     if(body.object){
         if(req.entry && 
             req.entry[0].changes &&
-            req.entry[0].changes[0].value.message &&
-            req.entry[0].changes[0].value.message[0]
+            req.entry[0].changes[0].value.messages &&
+            req.entry[0].changes[0].value.messages[0]
         ) {
             let from=req.entry[0].changes[0].value.messages[0].from;
-            let msg_body=body.entry[0].changes[0].value.messages[0].text.body;
+            let msg_body=req.entry[0].changes[0].value.messages[0].text.body;
 
             console.log("Reached point A")
             try {
