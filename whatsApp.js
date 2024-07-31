@@ -11,7 +11,7 @@ const app = express().use(bodyParser.json());
 /*app.use(bodyParser.urlencoded({
     extended: false
 }));*/
-app.listen(()=>{
+app.listen(process.env.PORT,()=>{
     console.log("webhook is listening");
 });
 
