@@ -3,8 +3,8 @@ const request = require('request');
 const bodyParser = require('body-parser');
 require('dotenv').config();
 
-const AuthToken='Bearer EAAHLThwOqiIBOwdOnA5O8v3P7x4Adj4zr3bexn5wpEWyZCQCkCZB7qKXd1PtZCUWmeZB2CJQ6UF4IZC9zApEimIp25ZBUYuRhMjsXWz3ybDuVOc1EkSWCEXDuZCvTSTeWBcsMVx7aOYWkSOiJTNVj5B4imfDY6085ibJmyFz8JHmhRSs92e5CSHT78R177vVdAEVZAfNby68T3mOZAuaU1ZAfGWJ6RBwkZD';
-const PhoneNumberId='325807853959150'
+const AuthToken='Bearer EAAHLThwOqiIBOxbUcJ0F5fifCn291d6ONeRuaZAMIiZBs2N3PmBjt5T9uZChCPm4RzVZCgOfeZCa7VV7JBzLCLYZC4KEAdXkHdeZAQylZApgGsFBqMhQNCd8F9PBM4CD6rLcpkeJSmERIFQc4gutzeoPfMk98uJPjjukZBGpJa1TMLl0vifNfXlxpIgUoluNSnJCZCSiySYOkk1KHDkLhel3WrraipSlrN3gZDZD';
+const PhoneNumberId='373490019183651'
 const myToken="mimif2622";
 
 const app = express().use(bodyParser.json());
@@ -78,15 +78,17 @@ app.post("/webhook", (req,res)=>{
     console.log(JSON.stringify(body, null, 2));
 
     if(body.object){
-        if(req.entry && 
-            req.entry[0].changes &&
-            req.entry[0].changes[0].value.messages &&
-            req.entry[0].changes[0].value.messages[0]
+        if(body.entry && 
+            body.entry[0].changes &&
+            body.entry[0].changes[0].value.messages &&
+            body.entry[0].changes[0].value.messages[0]
         ) {
-            let from=req.entry[0].changes[0].value.messages[0].from;
-            let msg_body=req.entry[0].changes[0].value.messages[0].text.body;
-
-            console.log("Reached point A")
+            let from=body.entry[0].changes[0].value.messages[0].from;
+            let msg_body=body.entry[0].changes[0].value.messages[0].text.body;
+            let resData = {
+                status: false,
+                error: ''
+            }
             try {
                 const options = {
                     method: 'POST',
@@ -97,10 +99,10 @@ app.post("/webhook", (req,res)=>{
                     },
                     body: {
                         messaging_product: 'whatsapp',
-                        from: from,
+                        to: '+13473894047',
                         type: 'text',
                         text: {
-                            body: 'Hi, your message is " + msg_body'
+                            body: 'Message is: ' + msg_body
                         }
                     },
                     json: true
