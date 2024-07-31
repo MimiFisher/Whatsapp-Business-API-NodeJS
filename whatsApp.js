@@ -78,7 +78,8 @@ app.post("/webhook", (req,res)=>{
     console.log(JSON.stringify(body, null, 2));
 
     if(body.object){
-        if(entry && 
+        console.log("Reached point A")
+        if(req.entry && 
             req.entry[0].changes &&
             req.entry[0].changes[0].value.message &&
             req.entry[0].changes[0].value.message[0]
