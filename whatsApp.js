@@ -1,13 +1,14 @@
 const express = require('express');
 const request = require('request');
+const path = require('path');
 const bodyParser = require('body-parser');
 require('dotenv').config();
 
-const AuthToken='Bearer EAAHLThwOqiIBOxbUcJ0F5fifCn291d6ONeRuaZAMIiZBs2N3PmBjt5T9uZChCPm4RzVZCgOfeZCa7VV7JBzLCLYZC4KEAdXkHdeZAQylZApgGsFBqMhQNCd8F9PBM4CD6rLcpkeJSmERIFQc4gutzeoPfMk98uJPjjukZBGpJa1TMLl0vifNfXlxpIgUoluNSnJCZCSiySYOkk1KHDkLhel3WrraipSlrN3gZDZD';
+const AuthToken=process.env.AuthToken;
 const PhoneNumberId='373490019183651'
 const myToken="mimif2622";
 
-const app = express().use(bodyParser.json());
+const app = express().use(express.json());
 /*app.use(bodyParser.urlencoded({
     extended: false
 }));*/
@@ -16,10 +17,7 @@ app.listen(process.env.PORT,()=>{
 });
 
 app.get('/', (req, res) => {
-    let resData = {
-    }
-    resData.message = 'Running';
-    return res.status(200).json(resData);
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.get('/sendMessage', (req, res) => {
